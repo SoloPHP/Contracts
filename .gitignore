@@ -1,0 +1,11 @@
+!.gitignore
+vendor/
+composer.lock
+.idea/
+.DS_Store
+Thumbs.db
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

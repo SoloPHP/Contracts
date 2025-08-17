@@ -1,0 +1,28 @@
+{
+    "name": "solophp/contracts",
+    "description": "Contracts and interfaces for Solo ecosystem",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Solo PHP Team",
+            "email": "team@solophp.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Solo\\Contracts\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    }
+}
