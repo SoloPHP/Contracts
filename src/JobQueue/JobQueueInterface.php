@@ -69,4 +69,14 @@ interface JobQueueInterface
      * @return void
      */
     public function processJobs(int $limit = 10, ?string $onlyType = null): void;
+
+    /**
+     * Push a job to the queue
+     *
+     * @param JobInterface $job  Job instance
+     * @param string|null  $type Job type for filtering (optional)
+     *
+     * @return void
+     */
+    public function push(JobInterface $job, ?string $type = null): void;
 }
