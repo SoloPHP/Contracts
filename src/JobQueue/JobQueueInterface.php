@@ -73,10 +73,17 @@ interface JobQueueInterface
     /**
      * Push a job to the queue
      *
-     * @param JobInterface $job  Job instance
-     * @param string|null  $type Job type for filtering (optional)
+     * @param JobInterface $job Job instance
+     * @param string|null $type Job type for filtering (optional)
+     * @param DateTimeImmutable|null $scheduledAt When the job should be executed
+     * @param DateTimeImmutable|null $expiresAt When the job becomes invalid
      *
-     * @return void
+     * @return int ID of the newly inserted job
      */
-    public function push(JobInterface $job, ?string $type = null): void;
+    public function push(
+        JobInterface $job,
+        ?string $type = null,
+        ?DateTimeImmutable $scheduledAt = null,
+        ?DateTimeImmutable $expiresAt = null
+    ): int;
 }
