@@ -1,5 +1,9 @@
 # SoloPHP Contracts
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/solophp/contracts.svg)](https://packagist.org/packages/solophp/contracts)
+[![License](https://img.shields.io/packagist/l/solophp/contracts.svg)](https://github.com/solophp/contracts/blob/main/LICENSE)
+[![PHP Version](https://img.shields.io/packagist/php-v/solophp/contracts.svg)](https://packagist.org/packages/solophp/contracts)
+
 A collection of interfaces and contracts for the SoloPHP ecosystem. This package provides standardized contracts that enable interoperability between different SoloPHP components and allow developers to create custom implementations.
 
 ## Requirements
