@@ -5,8 +5,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Solo PHP Team",
-            "email": "team@solophp.com"
+            "name": "Vitalii Olos",
+            "email": "vedastudio@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -18,11 +19,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true
-        }
-    }
+    "prefer-stable": true
 }
