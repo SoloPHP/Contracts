@@ -90,6 +90,48 @@ class MyValidator implements ValidatorInterface
 }
 ```
 
+### Container
+
+**`WritableContainerInterface`** - Extends PSR-11 ContainerInterface with write capability for service registration.
+
+```php
+use Solo\Contracts\Container\WritableContainerInterface;
+
+class MyContainer implements WritableContainerInterface
+{
+    public function set(string $id, callable $factory): void
+    {
+        // Register service factory
+    }
+
+    public function get(string $id): mixed
+    {
+        // Retrieve service
+    }
+
+    public function has(string $id): bool
+    {
+        // Check if service exists
+    }
+}
+```
+
+### Http
+
+**`EmitterInterface`** - Interface for HTTP response emitters that send PSR-7 responses to the client.
+
+```php
+use Solo\Contracts\Http\EmitterInterface;
+
+class SapiEmitter implements EmitterInterface
+{
+    public function emit(ResponseInterface $response): void
+    {
+        // Emit headers and body to client
+    }
+}
+```
+
 ## Usage
 
 ```json
