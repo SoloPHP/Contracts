@@ -24,7 +24,7 @@ interface RouterInterface
         string $path,
         callable|array|string $handler,
         array $options = []
-    ): void;
+    ): object;
 
     /**
      * Matches the requested method and URL against registered routes.
