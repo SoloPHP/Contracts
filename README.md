@@ -29,9 +29,10 @@ use Solo\Contracts\Router\RouterInterface;
 
 class MyRouter implements RouterInterface
 {
-    public function addRoute(string $method, string $path, $handler, array $options = []): void
+    public function addRoute(string $method, string $path, $handler, array $options = []): object
     {
         // Your implementation
+        return $this; // Enables fluent interface
     }
 
     public function match(string $method, string $uri): array|false
