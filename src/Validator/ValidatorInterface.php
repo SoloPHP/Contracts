@@ -7,12 +7,11 @@ namespace Solo\Contracts\Validator;
 interface ValidatorInterface
 {
     /**
-     * Validate data against rules with optional custom messages
+     * Validate data against rules
      *
      * @param array<string, mixed> $data Data to validate
      * @param array<string, string> $rules Validation rules ['field' => 'required|email']
-     * @param array<string, string> $messages Custom error messages ['field.required' => 'Field is required']
-     * @return array<string, array<string>> Validation errors ['field' => ['Error message']]
+     * @return array<string, list<array{rule: string, params?: string[]}>> Validation errors
      */
-    public function validate(array $data, array $rules, array $messages = []): array;
+    public function validate(array $data, array $rules): array;
 }
