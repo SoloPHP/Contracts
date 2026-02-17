@@ -83,10 +83,11 @@ use Solo\Contracts\Validator\ValidatorInterface;
 
 class MyValidator implements ValidatorInterface
 {
-    public function validate(array $data, array $rules, array $messages = []): array
+    public function validate(array $data, array $rules): array
     {
         // Validation logic
-        return $errors; // Empty array if valid
+        // Returns structured errors: ['field' => [['rule' => 'required', 'params' => [...]], ...]]
+        return $errors;
     }
 }
 ```
