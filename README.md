@@ -58,9 +58,10 @@ class SendEmailJob implements JobInterface
 }
 ```
 
-**`JobQueueInterface`** - Interface for job queue implementations with support for scheduling, retries, and job processing.
+**`JobQueueInterface`** - Interface for job queue implementations with support for scheduling, retries, bulk insert, stats, reclaim and operational helpers.
 
 ```php
+use Solo\Contracts\JobQueue\JobInterface;
 use Solo\Contracts\JobQueue\JobQueueInterface;
 
 class DatabaseJobQueue implements JobQueueInterface
@@ -70,7 +71,24 @@ class DatabaseJobQueue implements JobQueueInterface
         // Add job to queue
     }
 
-    // Implement other methods: addJob, getPendingJobs, processJobs, markCompleted, markFailed
+    // Also implement:
+    //   pushMany, addJob, getPendingJobs, getFailedJobs, getStats,
+    //   processJobs (returns int — number of jobs executed),
+    //   reclaimStuck, retry, markCompleted, markFailed.
+}
+```
+
+**`JobQueueListener`** - Observability hook for queue events. Implement to ship metrics (Datadog, Prometheus), open tracing spans, or enrich log context per job.
+
+```php
+use Solo\Contracts\JobQueue\JobQueueListener;
+
+class MetricsListener implements JobQueueListener
+{
+    public function onClaimed(int $jobId, string $jobClass): void { /* ... */ }
+    public function onCompleted(int $jobId): void { /* ... */ }
+    public function onFailed(int $jobId, \Throwable|string $error, bool $permanent): void { /* ... */ }
+    public function onReclaimed(int $requeuedCount, int $permanentlyFailedCount): void { /* ... */ }
 }
 ```
 
@@ -139,7 +157,7 @@ class SapiEmitter implements EmitterInterface
 ```json
 {
     "require": {
-        "solophp/contracts": "^1.0"
+        "solophp/contracts": "^1.4"
     }
 }
 ```
