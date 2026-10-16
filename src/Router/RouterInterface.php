@@ -16,8 +16,13 @@ interface RouterInterface
      *
      * @param string $method HTTP method (GET, POST, etc.)
      * @param string $path Route path, without group prefix
-     * @param callable|array|string $handler Route handler (callable or controller reference)
-     * @param array{group?:string,middlewares?:array<int,callable>,name?:string} $options
+     * @param callable|array{class-string, string}|string $handler Route handler (callable or controller reference)
+     * @param array{
+     *     group?: string,
+     *     middlewares?: array<int, callable|string>,
+     *     name?: string|null,
+     *     attributes?: array<string, mixed>
+     * } $options Middleware are callables or ids the caller resolves, e.g. class names
      */
     public function addRoute(
         string $method,
@@ -29,9 +34,18 @@ interface RouterInterface
     /**
      * Matches the requested method and URL against registered routes.
      *
+     * Method names are case-sensitive (RFC 9110): "get" does not match a GET route.
+     * Parameters are returned as they appear in $uri; decoding them is up to the caller.
+     *
      * @param string $method HTTP method of the request
-     * @param string $uri Requested URI
-     * @return array{handler:callable|array|string,params:array<string,string>,middlewares:array<int,callable>}|false
+     * @param string $uri Requested URI path
+     * @return array{
+     *     handler: callable|array{class-string, string}|string,
+     *     params: array<string, string>,
+     *     middlewares: array<int, callable|string>,
+     *     name?: string|null,
+     *     attributes?: array<string, mixed>
+     * }|false Middleware outermost first; name and attributes are optional for implementations
      */
     public function match(string $method, string $uri): array|false;
 }

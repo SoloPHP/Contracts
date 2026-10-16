@@ -42,6 +42,25 @@ class MyRouter implements RouterInterface
 }
 ```
 
+`match()` returns `false` or `['handler' => ..., 'params' => [...], 'middlewares' => [...]]`, optionally with `name` and `attributes`. Method names are case-sensitive (RFC 9110), and parameters are returned as they appear in the URI path: decoding them is up to the caller.
+
+**`AllowedMethodsInterface`** - Optional router capability: the HTTP methods a path is routed for, to answer `405 Method Not Allowed` with an `Allow` header instead of `404 Not Found`.
+
+```php
+use Solo\Contracts\Router\AllowedMethodsInterface;
+use Solo\Contracts\Router\RouterInterface;
+
+class MyRouter implements RouterInterface, AllowedMethodsInterface
+{
+    // addRoute() and match() as above
+
+    public function getAllowedMethods(string $uri): array
+    {
+        return ['GET', 'HEAD']; // or [] when no route matches the path
+    }
+}
+```
+
 ### Job Queue
 
 **`JobInterface`** - Interface for executable job classes.
@@ -112,7 +131,7 @@ class MyValidator implements ValidatorInterface
 
 ### Container
 
-**`WritableContainerInterface`** - Extends PSR-11 ContainerInterface with write capability for service registration.
+**`WritableContainerInterface`** - Extends PSR-11 ContainerInterface with write capability for service registration. Services are shared: the factory receives the container, runs on the first `get()` of the id, and later calls return the same instance.
 
 ```php
 use Solo\Contracts\Container\WritableContainerInterface;
@@ -157,7 +176,7 @@ class SapiEmitter implements EmitterInterface
 ```json
 {
     "require": {
-        "solophp/contracts": "^1.4"
+        "solophp/contracts": "^1.5"
     }
 }
 ```
