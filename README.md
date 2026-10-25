@@ -22,6 +22,8 @@ composer require solophp/contracts
 
 ### Router
 
+> **Deprecated since 1.6, removed in 2.0.** `solophp/router` 4 does not implement these interfaces and `solophp/application` 4.0.1 does not use them: routes are registered on `Solo\Router\RouteCollector`, and `Solo\Router\Router::resolve()` returns `Matched`, `NotFound` or `MethodNotAllowed` with the allowed methods. They remain for `solophp/router` 3.x and `solophp/application` up to 4.0.0.
+
 **`RouterInterface`** - Framework-agnostic interface for HTTP routing implementations.
 
 ```php
@@ -176,7 +178,7 @@ class SapiEmitter implements EmitterInterface
 ```json
 {
     "require": {
-        "solophp/contracts": "^1.5"
+        "solophp/contracts": "^1.6"
     }
 }
 ```

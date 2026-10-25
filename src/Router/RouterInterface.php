@@ -8,6 +8,10 @@ namespace Solo\Contracts\Router;
  * Interface for router implementations.
  *
  * Minimal, framework-agnostic API
+ *
+ * @deprecated since 1.6, removed in 2.0. solophp/router 4 does not implement it and
+ * solophp/application 4.0.1 does not use it: routes are registered on Solo\Router\RouteCollector
+ * and requests resolved with Solo\Router\Router::resolve().
  */
 interface RouterInterface
 {
