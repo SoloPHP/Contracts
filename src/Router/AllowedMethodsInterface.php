@@ -8,6 +8,9 @@ namespace Solo\Contracts\Router;
  * Optional router capability: the methods a path is routed for.
  *
  * Lets callers answer 405 Method Not Allowed with an Allow header instead of 404 Not Found.
+ *
+ * @deprecated since 1.6, removed in 2.0, together with RouterInterface. In solophp/router 4,
+ * Solo\Router\Router::resolve() returns MethodNotAllowed with the allowed methods.
  */
 interface AllowedMethodsInterface
 {
