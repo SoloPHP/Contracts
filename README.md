@@ -117,6 +117,8 @@ class MetricsListener implements JobQueueListener
 
 **`ValidatorInterface`** - Interface for data validation implementations.
 
+A field missing from the data, or `null` in it, has no value: only the rules that decide whether a value is needed — such as `required`, `filled`, `present` or `required_if` — check it. Any other value, `''` and `[]` included, goes through all of the field's rules, unless its rules say otherwise. So `'email'` alone accepts a missing or `null` email, and `'required|email'` refuses both.
+
 ```php
 use Solo\Contracts\Validator\ValidatorInterface;
 
@@ -124,12 +126,14 @@ class MyValidator implements ValidatorInterface
 {
     public function validate(array $data, array $rules): array
     {
-        // Validation logic
+        // Validation logic; an absent or null field meets presence rules only
         // Returns structured errors: ['field' => [['rule' => 'required', 'params' => [...]], ...]]
         return $errors;
     }
 }
 ```
+
+[solophp/validator](https://github.com/SoloPHP/Validator) implements it from 4.2; this package conflicts with its earlier versions, which check `null` with every rule.
 
 ### Container
 
