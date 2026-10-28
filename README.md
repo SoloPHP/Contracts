@@ -135,6 +135,17 @@ class MyValidator implements ValidatorInterface
 
 **`WritableContainerInterface`** - Extends PSR-11 ContainerInterface with write capability for service registration. Services are shared: the factory receives the container, runs on the first `get()` of the id, and later calls return the same instance.
 
+An id that names a class or interface resolves to an instance of it: an implementation throws a `ContainerExceptionInterface` rather than return anything else. `get()` is typed accordingly, so static analysis sees `$container->get(Mailer::class)` as a `Mailer` and any other id as `mixed`, and a factory's untyped parameter as the container:
+
+```php
+use Solo\Contracts\Container\WritableContainerInterface;
+
+function register(WritableContainerInterface $container): void
+{
+    $container->set(Mailer::class, fn($c) => new Mailer($c->get(Transport::class)));
+}
+```
+
 ```php
 use Solo\Contracts\Container\WritableContainerInterface;
 
@@ -147,7 +158,7 @@ class MyContainer implements WritableContainerInterface
 
     public function get(string $id): mixed
     {
-        // Retrieve service
+        // Retrieve service; an id naming a class must yield an instance of it
     }
 
     public function has(string $id): bool
@@ -156,6 +167,8 @@ class MyContainer implements WritableContainerInterface
     }
 }
 ```
+
+[solophp/container](https://github.com/SoloPHP/Container) implements it from 4.0; this package conflicts with its earlier versions, which do not check the class of an entry.
 
 ### Http
 
@@ -178,7 +191,7 @@ class SapiEmitter implements EmitterInterface
 ```json
 {
     "require": {
-        "solophp/contracts": "^1.6"
+        "solophp/contracts": "^1.7"
     }
 }
 ```
