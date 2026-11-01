@@ -8,6 +8,9 @@ use DateTimeImmutable;
 
 /**
  * Interface for job queue implementations
+ *
+ * @deprecated since 1.9, use JobProducerInterface for enqueueing and JobProcessorInterface
+ *             for execution. solophp/job-queue 2.x implements those instead.
  */
 interface JobQueueInterface
 {

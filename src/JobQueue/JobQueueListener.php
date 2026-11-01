@@ -16,30 +16,31 @@ use Throwable;
 interface JobQueueListener
 {
     /**
-     * Fired after a job row was claimed and its handler instantiated, just
-     * before handle() runs. Use to open a tracing span or set log context.
+     * Fired after a job was claimed and its handler instantiated, before
+     * handle() runs. Use to open a tracing span or set log context.
      *
      * @param class-string $jobClass Concrete handler class name
      */
     public function onClaimed(int $jobId, string $jobClass): void;
 
     /**
-     * Fired after a job completes successfully (markCompleted called).
+     * Fired after a job completed successfully and the queue recorded it.
      */
     public function onCompleted(int $jobId): void;
 
     /**
-     * Fired after a job fails.
+     * Fired after a failed attempt was recorded.
      *
      * @param Throwable|string $error     The exception (or manual string) that caused the failure
-     * @param bool             $permanent True if retries are exhausted and the job is now in 'failed' status;
-     *                                    false if it will be retried with backoff
+     * @param bool             $permanent True if the job will not run again automatically (attempts exhausted
+     *                                    or deadline passed); false if it was rescheduled with backoff
      */
     public function onFailed(int $jobId, Throwable|string $error, bool $permanent): void;
 
     /**
-     * Fired once per reclaim sweep when any rows were reclaimed. Counts are
-     * aggregate because reclaim typically runs as a bulk UPDATE.
+     * Fired once per maintenance run that recovered attempts abandoned by stopped
+     * workers. $permanentlyFailedCount counts recovered jobs that will not run
+     * again: attempts exhausted or deadline passed.
      */
     public function onReclaimed(int $requeuedCount, int $permanentlyFailedCount): void;
 }
