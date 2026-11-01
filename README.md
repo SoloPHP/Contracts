@@ -79,25 +79,27 @@ class SendEmailJob implements JobInterface
 }
 ```
 
-**`JobQueueInterface`** - Interface for job queue implementations with support for scheduling, retries, bulk insert, stats, reclaim and operational helpers.
+**`JobProducerInterface`** - Enqueues jobs: `push()` and `pushMany()`. Type-hint it in services that only schedule work.
 
 ```php
-use Solo\Contracts\JobQueue\JobInterface;
-use Solo\Contracts\JobQueue\JobQueueInterface;
+use Solo\Contracts\JobQueue\JobProducerInterface;
 
-class DatabaseJobQueue implements JobQueueInterface
+class SignupService
 {
-    public function push(JobInterface $job, ?string $type = null, ?DateTimeImmutable $scheduledAt = null, ?DateTimeImmutable $expiresAt = null): int
+    public function __construct(private JobProducerInterface $jobs)
     {
-        // Add job to queue
     }
 
-    // Also implement:
-    //   pushMany, addJob, getPendingJobs, getFailedJobs, getStats,
-    //   processJobs (returns int — number of jobs executed),
-    //   reclaimStuck, retry, markCompleted, markFailed.
+    public function register(string $email): void
+    {
+        $this->jobs->push(new SendEmailJob($email), 'email');
+    }
 }
 ```
+
+**`JobProcessorInterface`** - Executes queued jobs. `processJobs()` runs maintenance and then up to `$limit` jobs, `processNext()` runs one job without maintenance, and `maintain()` recovers attempts abandoned by stopped workers and expires overdue jobs. Workers and schedulers depend on it.
+
+**`JobQueueInterface`** - *Deprecated since 1.9.* The broad v1 queue interface; use `JobProducerInterface` and `JobProcessorInterface` instead.
 
 **`JobQueueListener`** - Observability hook for queue events. Implement to ship metrics (Datadog, Prometheus), open tracing spans, or enrich log context per job.
 
